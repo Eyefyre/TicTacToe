@@ -39,11 +39,29 @@ def draw_all():
     draw_window()
     draw_reset_button()
     draw_board()
+    if(Winner == 0):
+        hover_squares()
     if(Winner != 0):
         draw_winner_banner()
     update_display()
-    
 
+def hover_squares():
+    mouse = pygame.mouse.get_pos()
+    for i, x in enumerate(squares):
+        for j, y in enumerate(x):
+            xLoc = (100 + (squareWidth * i))
+            yLoc = (100 + (squareHeight * j))
+            if xLoc <= mouse[0] <= (xLoc + squareWidth) and yLoc <= mouse[1] <= (yLoc + squareHeight):
+                if WhoseTurn == -1:
+                    valueSurface = SquareFont.render("X", True, RED)
+                    valueSurface.set_alpha(75)
+                if WhoseTurn == 1:
+                    valueSurface = SquareFont.render("O", True, BLUE)
+                    valueSurface.set_alpha(75)
+                if squares[j][i] == 0: 
+                    WINDOW.blit(valueSurface,(xLoc + squareWidth/5 ,yLoc + squareHeight/256))
+
+    
 def draw_winner_banner():
     global Winner
     xLoc = 400
@@ -140,7 +158,7 @@ def checkMouseClick():
     if ResetXLoc - 100 <= mouse[0] <= (ResetXLoc+100) and ResetYLoc -25 <= mouse[1] <= (ResetYLoc +25):
         squares = [[0 for i in range(cols)] for j in range(rows)]
         Winner = 0
-        #printGrid()
+        WhoseTurn = 1
     if Winner == 0:
         for i, x in enumerate(squares):
             for j, y in enumerate(x):
@@ -151,7 +169,6 @@ def checkMouseClick():
                         squares[j][i] = WhoseTurn 
                         WhoseTurn = WhoseTurn * -1
                         Winner = checkWinCondition()
-                    #printGrid()
 
 
 def draw_reset_button():
