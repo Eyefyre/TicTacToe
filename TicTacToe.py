@@ -5,12 +5,14 @@ WINDOW = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Tic Tac Toe")
 WHITE = (255,255,255)
 BLACK = (0,0,0)
-GREY = (200,200,200)
+GREY = (255,240,240)
+BEIGE = (249,243,221)
 RED = (255,0,0)
+BLUE = (0,0,255)
 cols,rows = 3,3
 squares = [[0 for i in range(cols)] for j in range(rows)]
 pygame.font.init()  
-SquareFont = pygame.font.SysFont('Comic Sans MS', 50)
+SquareFont = pygame.font.SysFont('Comic Sans MS', 150)
 ButtonFont = pygame.font.SysFont('Comic Sans MS', 35)
 FPS = 60
 squareHeight,squareWidth = 200,200
@@ -46,14 +48,15 @@ def draw_winner_banner():
     global Winner
     xLoc = 400
     yLoc = 400
-    pygame.draw.rect(WINDOW, GREY, [xLoc-200,yLoc - 200, 400,200])
+    pygame.draw.rect(WINDOW, WHITE, [xLoc-150,yLoc - 125, 300,100])
+    pygame.draw.rect(WINDOW, BLACK, [xLoc-152,yLoc - 127, 300,100],4)
     if Winner == -1:
         valueSurface = ButtonFont.render("X WINS!", True, BLACK)
     if Winner == 1:
         valueSurface = ButtonFont.render("O WINS!", True, BLACK)
     if Winner == 2:
-        valueSurface = ButtonFont.render("DRAW!", True, BLACK)
-    WINDOW.blit(valueSurface,(xLoc-75 ,yLoc - 125))
+        valueSurface = ButtonFont.render("A DRAW!", True, BLACK)
+    WINDOW.blit(valueSurface,(xLoc-75 ,yLoc - 100))
 
 def printGrid():
     for x in squares:
@@ -63,7 +66,7 @@ def printGrid():
     print()
 
 def draw_window():
-    WINDOW.fill(WHITE)
+    WINDOW.fill(BEIGE)
 
 def update_display():
     pygame.display.update()
@@ -73,13 +76,14 @@ def draw_board():
         for j, y in enumerate(x):
             xLoc = (100 + (squareWidth * j))
             yLoc = (100 + (squareHeight * i))
-            pygame.draw.rect(WINDOW, BLACK, [xLoc,yLoc, squareHeight,squareWidth], 2)
+            pygame.draw.rect(WINDOW, BLACK, [xLoc,yLoc, squareHeight,squareWidth], 4)
+            pygame.draw.rect(WINDOW, GREY, [xLoc + 1,yLoc + 1, squareHeight-1,squareWidth-1])
             if y == -1:
-                valueSurface = SquareFont.render("X", True, BLACK)
+                valueSurface = SquareFont.render("X", True, RED)
             if y == 1:
-                valueSurface = SquareFont.render("O", True, BLACK)
+                valueSurface = SquareFont.render("O", True, BLUE)
             if(y != 0):
-                WINDOW.blit(valueSurface,(xLoc + squareWidth/2.25 ,yLoc + squareHeight/3))
+                WINDOW.blit(valueSurface,(xLoc + squareWidth/5 ,yLoc + squareHeight/256))
 
 def checkWinCondition():
     DiagSum = 0
@@ -153,7 +157,8 @@ def checkMouseClick():
 def draw_reset_button():
     xLoc = 400
     yLoc = 50
-    pygame.draw.rect(WINDOW, BLACK, [xLoc-100,yLoc - 25, 200,50], 2)
+    pygame.draw.rect(WINDOW, BLACK, [xLoc-102,yLoc - 27, 203,53],2)
+    pygame.draw.rect(WINDOW, GREY, [xLoc-100,yLoc - 25, 200,50])
     valueSurface = ButtonFont.render("Reset", True, BLACK)
     WINDOW.blit(valueSurface,(xLoc-50 ,yLoc - 25))
 
